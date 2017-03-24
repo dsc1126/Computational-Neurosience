@@ -1,0 +1,182 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Large Colored Title Article
+% LaTeX Template
+% Version 1.1 (25/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[DIV=calc, paper=a4, fontsize=12pt, twocolumn]{article}	 % A4 paper and 11pt font size
+
+\usepackage{graphicx} % enables importing images
+\usepackage[cm]{fullpage} % page margin fix
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage[protrusion=true,expansion=true]{microtype} % Better typography
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage[svgnames]{xcolor} % Enabling colors by their 'svgnames'
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+\usepackage{fix-cm}	 % Custom font sizes - used for the initial letter in the document
+\usepackage{float}
+
+\usepackage{sectsty} % Enables custom section titles
+\usepackage{titlesec} % enables inserting margins around sections and subsections
+
+\allsectionsfont{\usefont{OT1}{phv}{b}{n}} % Change the font of all section commands
+
+\usepackage{pgfplots} % package to plot graphs using data
+\usepackage{fancyhdr} % Needed to define custom headers/footers
+\pagestyle{fancy} % Enables the custom headers/footers
+\usepackage{lastpage} % Used to determine the number of pages in the document (for "Page X of Total")
+
+% Headers
+% raisebox moves text in header up, header text needs to be enclosed in curly brackets
+\lhead{\raisebox{0.5\height} {COMS30127 - Computational Neuroscience}}
+\chead{}
+\rhead{\raisebox{0.5\height} {24 Mar 2017}}
+
+% Footers
+\lfoot{}
+\cfoot{}
+\rfoot{\footnotesize Page \thepage\ of \pageref{LastPage}} % "Page 1 of 2"
+
+\renewcommand{\headrulewidth}{0.2pt} % Thin header rule
+\renewcommand{\footrulewidth}{0.4pt} % Thin footer rule
+\headsep 5pt
+\usepackage{lettrine} % Package to accentuate the first letter of the text
+\newcommand{\initial}[1]{ % Defines the command and style for the first letter
+	\lettrine[lines=3,lhang=0.3,nindent=0em]{
+		\color{Black}
+		{\textsf{#1}}}{}}
+
+\setlength{\intextsep}{2pt}
+\setlength{\textfloatsep}{2pt}
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\usepackage{titling} % Allows custom title configuration
+
+\newcommand{\HorRule}{\color{Black} \rule{\linewidth}{1pt}} % Defines the blue horizontal rule under the title
+	
+
+\pretitle{\vspace{-10pt} \begin{center} \fontsize{20}{20} \usefont{OT1}{phv}{b}{n} \color{Black} \selectfont} % Horizontal rule before the title
+	
+	\title{Coursework 1: Neuron Model Simulation} % Your article title
+	
+	\posttitle{\end{center}} % Whitespace under the title
+
+\preauthor{ \begin{center}\large \lineskip -1em \usefont{OT1}{phv}{b}{sl} \color{Black}} % Author font configuration
+	
+	\author{Shichao Dong (sd16998)} % Your name
+	
+	\postauthor{\vspace{-10pt} \footnotesize \usefont{OT1}{phv}{m}{sl} \color{Black} % Configuration for the institution name
+		
+		\par\end{center}\HorRule } % Horizontal rule after the title
+
+\date{\vspace{-30pt}} % Add a date here if you would like one to appear underneath the title block
+
+%----------------------------------------------------------------------------------------
+
+%\pgfplotsset{compat=1.14} 
+\begin{document}	
+	\maketitle % Print the title
+	
+	\thispagestyle{fancy} % Enabling the custom headers/footers for the first page 
+	
+	%----------------------------------------------------------------------------------------
+	%	INTRODUCTION
+	%----------------------------------------------------------------------------------------
+	
+	% The first character should be within \initial{}
+	\textbf{This report aims to simulate different neuron models and give answer to the coursework questions. Python is used as programming language, and helps to generate figures for different scenarios.}
+
+	%----------------------------------------------------------------------------------------
+	%	ARTICLE CONTENTS
+	%----------------------------------------------------------------------------------------
+	%\vfill
+    %\bigskip
+	\subsection*{Q1. Simulate an Integrate and Fire Model}
+			The figure blow shows a basic neuron simulation of the integrate and fire model. Euler's method is used with a timestep of $1 ms$.  Based on the equation, the voltage arises until it exceeds the threshold (- 40mV). A spike will be produced as a result and the voltage will be reseted to Vr (-70mV).
+           
+        \begin{figure}[H]
+			\includegraphics*[width = 9.5cm]{Q1}
+		\end{figure}
+	
+	%\vfill
+	\bigskip	
+	\subsection*{Q2. Compute the Minimum Current to Produce an Action Potential}
+		\begin{equation}
+			I_emin = \dfrac{V_t - E_L}{R_m}
+		\end{equation}
+		\begin{equation}
+			I_emin = \dfrac{-40 mV - (-70 mV)}{10M\Omega} = 3.0nA
+		\end{equation}
+	%\vfill
+	\bigskip	
+	\subsection*{Q3. Simulate an Integrate and Fire Model with the Current Lower than the Minimum}
+	The minimum current value for this model is known as $3.0 nA$ from previous question. The current used in this question is $0.1 nA$ lower than the minimum, which is $I_e = 2.9 nA$. As our expectation, no spikes are generated in this simulation.
+		\begin{figure}[H]
+			\includegraphics*[width = 9.5cm]{Q3}
+		\end{figure}
+	%\vfill	
+	%\bigskip	
+	\subsection*{Q4. Simulate with Varies Input Current and their Firing Rate of Neuron}
+	This question requires to plot of the fire rate as a function of the input current. No spikes are observed if $I_e$ is blow $3.0 nA$, which is the minimum current required. The number of spikes generated are increased as the value of $I_e$ goes up. The figure here is in a stair like shape. If changes the timestep from $1 ms$ to $0.1 ms$, we could observe that the number of spikes are more or less proportional with the input current value, which forms like a straight line in the figure.
+
+        \begin{figure}[H]
+			\includegraphics*[width = 9.5cm]{Q4}
+		\end{figure}
+		 \begin{figure}[H]
+			\includegraphics*[width = 9.5cm]{Q4_extra}
+		\end{figure}
+	%\vfill
+    %\bigskip
+	\subsection*{Q5. Simulate Two Connected Neurons}
+	Same parameters are used for both neurons for simulation.The simple synapse model is as a time-dependent conductor in series with a battery. The simulation is performed in two sections where synapses is excitatory or inhibitory.The initial membrane potentials of two neurons are selected randomly within the range
+	\par 
+	In Q5(a), the synapses are excitatory where reversal potential $E_s = 0 mV$. It can be observed that even two neurons voltage are started at different value, both voltage value can be converged after few cycles.
+		\begin{figure}[H]
+			\includegraphics*[width = 9.5cm]{Q5a}
+		\end{figure}
+	In Q5(b), the synapses are inhibitory where reversal potential $E_s = -80 mV$. It can be observed that the voltage of two neurons remains at the same difference in steps and not affected by the performance of each other.
+		\begin{figure}[H]
+			\includegraphics*[width = 9.5cm]{Q5b}
+		\end{figure}
+	%\vfill
+	%\eject
+    \bigskip
+    \bigskip
+	\subsection*{Q6. Simulate an Integrate and Fire Model with Potassium Current}
+	The neuron model simulated is similar with the model in Q1 but with a slow potassium current. This current is caused by the reversal potential $E_K = -80mV$. While the voltage of the neuron model is escalating as usual, it decays towards zero with the time constant of $200ms$ and the value of decay accumulates. In fact, this decay slows down the incremental of voltage and the voltage still rise. Once the threshold is exceeded, a spike is generated and the conductance should increase by 0.005. These characteristics makes the neuron have lesser and lesser spiking rate over the time. That also means the time required for generate a spike becomes more. After some time, the neuron will lost the ability to produce a spike as what is shown in the figure below
+    
+	\par
+		\begin{figure}[htb]
+			\includegraphics*[width = 9.5cm]{Q6} 
+		\end{figure}
+ 	The figure below has a time range from 0 to 0.3s, which helps to observe more clearly about the change in firing rate.        
+        \begin{figure}[htb]
+			\includegraphics*[width = 9.5cm]{Q6_extra} 
+		\end{figure}
+	\bigskip
+    \subsection*{Q7. Alpha Function Model Vs Single Exponential Model}
+	Single exponential model is one of the simplest way of modelling synapse behavior, it assumes an instant rise of conductance every time there is a spike as long as an exponential decay with a time constant.
+	\par 
+	However the rise of conductance is not instance in alpha function. It describes a rising phase with certain amount of time instead. Such behavior of rising phase of conductance happens for most synapses and has strong effects on dynamics between neurons. The way of change in voltage will also be affect.
+	\par    
+	Besides, alpha function modelling only has one time constant value. That means the rise and decay are very closely related. The values could not be set independently.
+	%------------------------------------------------
+	
+\end{document}
