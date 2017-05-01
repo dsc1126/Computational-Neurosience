@@ -266,17 +266,17 @@ Rm = 10 * 10**6			# 10 mega ohm
 Ie = 3.1 * 10**-9		# 3.1 nA
 dt = 1 * 10**-3			# 0.001 s time interval
 Ek = -80 * 10**-3		# -80 mV
-Delta_Gm = 0.0005* 10**-6# 0.005 mega ohm ^-1 conductance
+Delta_Gm = 0.005* 10**-6# 0.005 mega ohm ^-1 conductance
 #Delta_Rm = 1 / Delta_Gm # find the resistance change rate
 decay_Tau = 200 * 10**-3# 200 ms	
 
 # Define differential equation
 def integrateFire3( V, t ) :
-    return ( EL - V + Rm*Ie + Rm*(Gk+Gk_delta)*(Ek - V)) / Tau_m
+    return ( EL - V + Rm*Ie + Rm*Gk_1*Gk_2*(Ek - V)) / Tau_m
 
 # Simulate neuron
-Gk=0
-Gk_delta=0
+Gk_1=1
+Gk_2=0
 t0=0
 t1=1
 dt=0.001
@@ -288,13 +288,13 @@ Vs=[V0]
 while ts[-1]<t1:
 
     V=Vs[-1]+integrateFire3(Vs[-1],ts[-1])*dt
-    Gk += -(dt*Gk)/decay_Tau
+    Gk_1 += -(dt*Gk_1)/decay_Tau
     ts.append(ts[-1]+dt)
     Vs.append(V)
     if Vs[-1] > Vt :	# If exceed threshold, make the value as Vr
         Vs[-1] = Vr
-        Gk = 0
-        Gk_delta += Delta_Gm  
+        Gk_1 = 1
+        Gk_2 += Delta_Gm  
     
 
 plt.figure(7)
@@ -305,5 +305,3 @@ plt.axis([ 0, 1, -0.08, -0.03 ])
 plt.title("Q6 Simulate an Integrate and Fire Model with Potassium Current")
 plt.savefig("Q6.png", dpi=500)
 plt.show()
-
-
